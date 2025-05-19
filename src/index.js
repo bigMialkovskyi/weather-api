@@ -12,7 +12,7 @@ require('./workers/mailWorker');
 
 // ініціалізація аплікейшна, визначаємо порт
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3050;
 const path = require('path');
 const prisma = new PrismaClient();
 
