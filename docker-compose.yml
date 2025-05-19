@@ -26,7 +26,10 @@ services:
       - "3050:3050"
     volumes:
       - .:/app
-    command: sh -c "npx prisma migrate deploy && node src/index.js"  # запуск без nodemon
+    # command: sh -c "npx prisma migrate deploy && node src/index.js"  # запуск без nodemon
+    command: ["./wait-for.sh", "db", "npx prisma migrate deploy && npm run start"]
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@db:5432/weather_db"
 
 volumes:
   db-data:
