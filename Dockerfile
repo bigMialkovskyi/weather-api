@@ -19,4 +19,6 @@ RUN npx prisma migrate deploy
 EXPOSE 3050
 
 # 7. Запускаємо продакшн-сервер
-CMD ["npm", "run", "start"]
+COPY wait-for.sh .
+RUN chmod +x wait-for.sh
+CMD ["./wait-for.sh", "db", "npx", "prisma", "migrate", "deploy"]
