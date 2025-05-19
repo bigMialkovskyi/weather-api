@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Підписка на прогноз погоди</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 30px auto;
+    }
+    h2 {
+      color: #2a7ae2;
+    }
+    form {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    input, select, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 8px;
+      font-size: 1rem;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h2>🔔 Підписка на прогноз погоди</h2>
+  <form id="subscribe-form">
+    <input type="email" name="email" placeholder="Email" required>
+    <input type="text" name="city" placeholder="Місто" required>
+    <select name="frequency" required>
+      <option value="">Оберіть частоту</option>
+      <option value="hourly">Щогодини</option>
+      <option value="daily">Щодня</option>
+    </select>
+    <button type="submit">Підписатись</button>
+    <p id="subscribe-message"></p>
+  </form>
+
+  <h2>🔕 Відписка</h2>
+  <form id="unsubscribe-form">
+    <input type="email" name="email" placeholder="Email" required>
+    <button type="submit">Відписатись</button>
+    <p id="unsubscribe-message"></p>
+  </form>
+
+  <script>
+    const subForm = document.getElementById('subscribe-form');
+    const unsubForm = document.getElementById('unsubscribe-form');
+
+    subForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(subForm);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const msg = await res.text();
+        document.getElementById('subscribe-message').textContent = msg;
+        document.getElementById('subscribe-message').className = res.ok ? 'success' : 'error';
+      } catch (err) {
+        document.getElementById('subscribe-message').textContent = 'Помилка запиту';
+        document.getElementById('subscribe-message').className = 'error';
+      }
+    });
+
+    unsubForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(unsubForm);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const res = await fetch('/api/unsubscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        const msg = await res.text();
+        document.getElementById('unsubscribe-message').textContent = msg;
+        document.getElementById('unsubscribe-message').className = res.ok ? 'success' : 'error';
+      } catch (err) {
+        document.getElementById('unsubscribe-message').textContent = 'Помилка запиту';
+        document.getElementById('unsubscribe-message').className = 'error';
+      }
+    });
+  </script>
+</body>
+</html>

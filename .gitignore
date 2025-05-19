@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# dotenv environment files
+.env
+.env.* # у випадку .env.production, .env.local тощо
+
+# OS specific
+.DS_Store
+
+# Build outputs
+dist/
+build/
+
+# Prisma files
+prisma/dev.db
+prisma/migrations/
+
+# Docker
+docker-compose.override.yml
+
+# VSCode
+.vscode/
