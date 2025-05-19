@@ -1,24 +1,21 @@
-# 1. Базовий образ
 FROM node:18
 
-# 2. Робоча директорія
+# Робоча директорія всередині контейнера
 WORKDIR /app
 
-# 3. Встановлюємо залежності
+# Копіюємо файли package.json та встановлюємо залежності
 COPY package*.json ./
 RUN npm install
 
-# 4. Копіюємо проєкт
+# Копіюємо весь код
 COPY . .
 
-# 5. Генеруємо Prisma клієнт і застосовуємо міграції
-RUN npx prisma generate
-RUN npx prisma migrate deploy
-
-# 6. Відкриваємо порт
-EXPOSE 3050
-
-# 7. Запускаємо продакшн-сервер
+# Додаємо скрипт очікування запуску бази
 COPY wait-for.sh .
 RUN chmod +x wait-for.sh
-CMD ["./wait-for.sh", "db", "npx", "prisma", "migrate", "deploy"]
+
+# Відкриваємо порт
+EXPOSE 3050
+
+# Команда за замовчуванням
+CMD ["npm", "run", "start"]
