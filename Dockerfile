@@ -19,4 +19,4 @@ RUN npx prisma migrate deploy
 EXPOSE 3050
 
 # 7. Запускаємо продакшн-сервер
-CMD ["node", "src/index.js"]
+CMD ["npm", "run", "start"]
