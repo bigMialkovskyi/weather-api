@@ -38,14 +38,14 @@ router.post('/subscribe', async (req, res) => {
     });
 
     console.log(`✅ Confirmation email sent to ${email} with token: ${token}`);
-    console.log(`🔗 Confirm link: http://localhost:3000/api/confirm/${token}`);
+    console.log(`🔗 Confirm link: http://localhost:3050/api/confirm/${token}`);
     await sendEmail(
       email,
       'Please confirm your subscription',
       `
         <p>Hello!</p>
         <p>Click the link below to confirm your subscription:</p>
-        <p><a href="http://localhost:3000/api/confirm/${token}">Confirm Subscription</a></p>
+        <p><a href="http://localhost:3050/api/confirm/${token}">Confirm Subscription</a></p>
       `
     );
 
@@ -84,12 +84,12 @@ router.get('/confirm/:token', async (req, res) => {
       `
         <p>Thank you for confirming your subscription to weather updates.</p>
         <p>If you ever want to unsubscribe, use this link:</p>
-        <p><a href="http://localhost:3000/api/unsubscribe/${token}">Unsubscribe</a></p>
+        <p><a href="http://localhost:3050/api/unsubscribe/${token}">Unsubscribe</a></p>
       `
     );
 
     res.json({ message: 'Subscription confirmed successfully.' });
-    console.log(`🔗 Unsubscribe link: http://localhost:3000/api/unsubscribe/${token}`);
+    console.log(`🔗 Unsubscribe link: http://localhost:3050/api/unsubscribe/${token}`);
   } catch (error) {
     console.error('❌ Confirmation error:', error);
     res.status(500).json({ message: 'Internal server error.' });
